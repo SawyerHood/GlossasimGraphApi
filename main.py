@@ -7,8 +7,8 @@ from hashlib import md5
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-    return 'Hello World!'
+def root():
+    return 'Welcome to the GlossasimGraphApi!'
 
 def create_graph(data, graph_type='hbar', title=''):
     import pdb; pdb.set_trace()
