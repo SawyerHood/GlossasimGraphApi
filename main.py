@@ -1,5 +1,4 @@
-from flask import Flask
-from flask import request
+from flask import Flask, request, send_file
 import pygal
 import operator
 
@@ -13,15 +12,11 @@ def hello_world():
 def trigger():
     bar_graph = pygal.HorizontalBar()
     bar_graph.title = 'Occurance of trigger words'
-    sorted_word_tuples = sorted(request.json.items(), key=operator.itemgetter(1))
+    sorted_word_tuples = sorted(request.json.items(), key=operator.itemgetter(1), reverse=True)
     for word, num in sorted_word_tuples:
         bar_graph.add(word, num)
-    try:
-        bar_graph.render_to_png('test.png')
-    except Exception as e:
-        print e
-    return 200
-
+    bar_graph.render_to_png('test.png')
+    return send_file('test.png', mimetype='image/png')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=8000)
