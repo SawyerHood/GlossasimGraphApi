@@ -1,4 +1,5 @@
 from flask import Flask, request, send_file
+import os
 import pygal
 import operator
 import base64
@@ -36,7 +37,11 @@ def create_graph(data, graph_type='hbar', title=''):
 
     filename = data_hash + '.png'
     graph.render_to_png(filename)
-    return send_file(filename, mimetype='image/png')
+    try:
+        return send_file(filename, mimetype='image/png')
+    finally:
+        os.remove(filename)
+
 
 @app.route('/trigger', methods=['POST'])
 def trigger():
